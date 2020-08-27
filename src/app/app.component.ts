@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {HttpClient} from '@angular/common/http';
+import {ReservationService} from './reservation.service';
+
 
 @Component({
   selector: 'app-root',
@@ -10,13 +11,31 @@ import {HttpClient} from '@angular/common/http';
 export class AppComponent {
   title = 'reservation-app';
 
-  constructor(private http: HttpClient) {}
+  constructor(private reservationService: ReservationService) {
+  }
 
-  private baseUrl = 'http://localhost:8080';
-  private reservationUrl: string = this.baseUrl + '/room/v1/reservation';
   rooms: Room[];
+  roomSearchForm: FormGroup;
+  currentCheckInVal: string;
+  currentCheckOutVal: string;
+  currentPrice: number;
+  currentRoomNumber: number;
 
-  ngOnInit () {
+  ngOnInit() {
+    this.roomSearchForm = new FormGroup({
+      checkin: new FormControl(''),
+      checkout: new FormControl(''),
+      roomNumber: new FormControl('')
+    });
+    this.roomSearchForm.valueChanges.subscribe(form => {
+      this.currentCheckInVal = form.checkin;
+      this.currentCheckOutVal = form.checkout;
+
+      let roomValues: string[] = form.roomNumber.split('|');
+      this.currentRoomNumber = Number(roomValues[0]);
+      this.currentPrice = Number(roomValues[1]);
+    });
+
     this.rooms = [new Room('127', '137', '150'),
       new Room('113', '183', '145'),
       new Room('823', '130', '152')];
