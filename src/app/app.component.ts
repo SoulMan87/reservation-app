@@ -31,11 +31,18 @@ export class AppComponent {
       this.currentCheckInVal = form.checkin;
       this.currentCheckOutVal = form.checkout;
 
-      let roomValues: string[] = form.roomNumber.split('|');
-      this.currentRoomNumber = Number(roomValues[0]);
-      this.currentPrice = Number(roomValues[1]);
-    });
 
+      if (form.roomNumber) {
+        let roomValues: string[] = form.roomNumber.split('|');
+        this.currentRoomNumber = Number(roomValues[0]);
+        this.currentPrice = Number(roomValues[1]);
+      }
+
+      console.log(this.currentCheckInVal);
+      console.log(this.currentCheckOutVal);
+      console.log(this.currentRoomNumber);
+      console.log(this.currentPrice);
+    });
     this.rooms = [new Room('127', '137', '150'),
       new Room('113', '183', '145'),
       new Room('823', '130', '152')];
