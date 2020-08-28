@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {ReservationService} from './reservation.service';
+import {ReservationRequest, ReservationService} from './reservation.service';
 
 
 @Component({
@@ -46,6 +46,15 @@ export class AppComponent {
     this.rooms = [new Room('127', '137', '150'),
       new Room('113', '183', '145'),
       new Room('823', '130', '152')];
+  }
+
+  createReservation() {
+    this.reservationService.createReservation(
+      new ReservationRequest(this.currentRoomNumber,
+        this.currentCheckInVal, this.currentCheckOutVal, this.currentPrice)
+    ).subscribe(postResult => {
+      console.log(postResult)
+    });
   }
 
 }
